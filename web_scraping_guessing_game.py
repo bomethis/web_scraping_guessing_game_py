@@ -12,4 +12,8 @@ for quote in quotes:
         "bio-link": quote.find(class_="a")["href"]
         })
 
-print(all_quotes)
+
+next_btn = soup.find(class_="next")
+print(next_btn.find("a")["href"])
+
+# print(all_quotes)
