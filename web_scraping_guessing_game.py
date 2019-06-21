@@ -10,7 +10,6 @@ url = "/page/1"
 while url:
 
     res = requests.get(f"{base_url}{url}")
-    # print(f"Now Scraping {base_url}{url}...")
     soup = BeautifulSoup(res.text, "html.parser")
     quotes = soup.find_all(class_="quote")
 
@@ -23,7 +22,9 @@ while url:
 
     next_btn = soup.find(class_="next")
     url = next_btn.find("a")["href"] if next_btn else None
-    # sleep(1)
+
+    ##pause by 2 seconds
+    #sleep(2)
 
 quote = choice(all_quotes)
 remaining_guesses = 4
@@ -32,7 +33,11 @@ print(quote["text"])
 
 guess =''
 while guess.lower() != quote["author"].lower() and remaining_guesses > 0:
-    guess = input(f"Who said this quote? Guesses remaining: {remaining_guesses}  ")
+    guess = input(f"Who said this quote? Guesses remaining: {remaining_guesses} \n ")
+    print(f"DELETE ME {quote['author']}")
+    if guess.lower() == quote["author"].lower():
+        print("YOU GUESSED IT!!")
+        break
     remaining_guesses -= 1
     if remaining_guesses == 3:
         res = requests.get(f"{base_url}{quote['bio-link']}")
@@ -47,4 +52,3 @@ while guess.lower() != quote["author"].lower() and remaining_guesses > 0:
         print(f"Here's a hint: The author's last name starts with: {last_initial}")
     else:
         print(f"Sorry you guesses remaining. The answer was {quote['author']}")
-print("AFTER WHILE LOOP")
