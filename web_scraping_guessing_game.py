@@ -51,4 +51,12 @@ while guess.lower() != quote["author"].lower() and remaining_guesses > 0:
         last_initial = quote['author'].split(" ")[1][0]
         print(f"Here's a hint: The author's last name starts with: {last_initial}")
     else:
-        print(f"Sorry you guesses remaining. The answer was {quote['author']}")
+        print(f"Sorry no guesses remaining. The answer was {quote['author']}")
+
+again = ''
+while again.lower() not in ('y','yes','n','no'):
+    again = input("Would you like to play agin (y/n)?")
+if again.lower() in ('yes', 'y'):
+    print("OK you play again")
+else:
+    print("ok, goodby")
