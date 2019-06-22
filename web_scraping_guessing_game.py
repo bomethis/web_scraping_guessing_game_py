@@ -6,6 +6,28 @@ import requests
 base_url = "http://quotes.toscrape.com"
 url = "/page/1"
 
+def scrape_quotes():
+    all_quotes = []
+    url = "/page/1"
+    while url:
+
+        res = requests.get(f"{base_url}{url}")
+        soup = BeautifulSoup(res.text, "html.parser")
+        quotes = soup.find_all(class_="quote")
+
+        for quote in quotes:
+            all_quotes.append({
+                "text": quote.find(class_="text").get_text(),
+                "author": quote.find(class_="author").get_text(),
+                "bio-link": quote.find("a")["href"]
+            })
+
+        next_btn = soup.find(class_="next")
+        url = next_btn.find("a")["href"] if next_btn else None
+
+        #pause 1 seconds
+        # sleep(1)
+    return all_quotes
 
 def start_game(quotes):
     quote = choice(quotes)
@@ -16,7 +38,7 @@ def start_game(quotes):
     guess =''
     while guess.lower() != quote["author"].lower() and remaining_guesses > 0:
         guess = input(f"Who said this quote? Guesses remaining: {remaining_guesses} \n ")
-        print(f"DELETE ME {quote['author']}")
+        print(f"DELETE ME -- pssst..answer is: {quote['author']}")
         if guess.lower() == quote["author"].lower():
             print("YOU GUESSED IT!!")
             break

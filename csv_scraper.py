@@ -1,3 +1,11 @@
+from bs4 import BeautifulSoup
+from time import sleep
+from random import choice
+import requests
+from csv import DictWriter
+
+base_url = "http://quotes.toscrape.com"
+
 def scrape_quotes():
     all_quotes = []
     url = "/page/1"
@@ -17,6 +25,18 @@ def scrape_quotes():
         next_btn = soup.find(class_="next")
         url = next_btn.find("a")["href"] if next_btn else None
 
-        ##pause by 2 seconds
-        #sleep(2)
+        #pause 1 seconds
+        sleep(1)
     return all_quotes
+
+
+def write_quotes(quotes):
+    with open("quotes.csv", "w") as file:
+        headers = ["text", "author", "bio-link"]
+        csv_writer = DictWriter(file, fieldnames=headers)
+        csv_writer.writeheader()
+        for quote in quotes:
+            csv_writer.writerow(quote)
+
+quotes = scrape_quotes()
+write_quotes(quotes)
