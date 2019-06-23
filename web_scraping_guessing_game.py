@@ -6,6 +6,7 @@ import requests
 base_url = "http://quotes.toscrape.com"
 url = "/page/1"
 
+
 def scrape_quotes():
     all_quotes = []
     url = "/page/1"
@@ -25,9 +26,10 @@ def scrape_quotes():
         next_btn = soup.find(class_="next")
         url = next_btn.find("a")["href"] if next_btn else None
 
-        #pause 1 seconds
-        # sleep(1)
+        pause 1 seconds
+        sleep(1)
     return all_quotes
+
 
 def start_game(quotes):
     quote = choice(quotes)
@@ -35,9 +37,10 @@ def start_game(quotes):
     print("Here's a quote: ")
     print(quote["text"])
 
-    guess =''
+    guess = ''
     while guess.lower() != quote["author"].lower() and remaining_guesses > 0:
-        guess = input(f"Who said this quote? Guesses remaining: {remaining_guesses} \n ")
+        guess = input(
+            f"Who said this quote? Guesses remaining: {remaining_guesses} \n ")
         print(f"DELETE ME -- pssst..answer is: {quote['author']}")
         if guess.lower() == quote["author"].lower():
             print("YOU GUESSED IT!!")
@@ -48,22 +51,27 @@ def start_game(quotes):
             soup = BeautifulSoup(res.text, "html.parser")
             birth_date = soup.find(class_="author-born-date").get_text()
             birth_place = soup.find(class_="author-born-location").get_text()
-            print(f"Here's a hint: The author was born on {birth_date} {birth_place}")
+            print(
+                f"Here's a hint: The author was born on {birth_date} {birth_place}")
         elif remaining_guesses == 2:
-            print(f"Here's a hint: The author's first name starts with: {quote['author'][0]}")
+            print(
+                f"Here's a hint: The author's first name starts with: {quote['author'][0]}")
         elif remaining_guesses == 1:
             last_initial = quote['author'].split(" ")[1][0]
-            print(f"Here's a hint: The author's last name starts with: {last_initial}")
+            print(
+                f"Here's a hint: The author's last name starts with: {last_initial}")
         else:
-            print(f"Sorry no guesses remaining. The answer was {quote['author']}")
+            print(
+                f"Sorry no guesses remaining. The answer was {quote['author']}")
 
     again = ''
-    while again.lower() not in ('y','yes','n','no'):
+    while again.lower() not in ('y', 'yes', 'n', 'no'):
         again = input("Would you like to play agin (y/n)?")
     if again.lower() in ('yes', 'y'):
         return start_game(quotes)
     else:
         print("ok, Thanks for playing!")
+
 
 quotes = scrape_quotes()
 start_game(quotes)
